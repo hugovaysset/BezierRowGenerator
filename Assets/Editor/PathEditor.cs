@@ -19,6 +19,7 @@ public class PathEditor : Editor
     {
         base.OnInspectorGUI();
 
+        EditorGUI.BeginChangeCheck();
         Vector3 initial_point_inspector = EditorGUILayout.Vector3Field("Initial point", creator.init_point);
         if (initial_point_inspector != path.initial_point)
         {
@@ -35,7 +36,7 @@ public class PathEditor : Editor
             path.MovePoint(path.NumPoints - 1, end_point_inspector);
         }
 
-        int nb_points_in_path = (int)EditorGUILayout.IntField("Number of points", creator.nb_points);
+        int nb_points_in_path = EditorGUILayout.IntField("Number of points", creator.nb_points);
         if (nb_points_in_path != path.nb_points)
         {
             creator.NbPoints = nb_points_in_path;
@@ -50,11 +51,29 @@ public class PathEditor : Editor
             path.AutoSetControlPoints = auto_set_control_points;
         }
 
-        EditorGUI.BeginChangeCheck();
-        if (GUILayout.Button("Create new path"))
+        if (GUILayout.Button("Reset path"))
         {
             creator.CreatePath();
             path = creator.path;
+        }
+
+        int nb_rows = EditorGUILayout.IntField("Number of rows", creator.nb_rows);
+        if (nb_rows != creator.nb_rows)
+        {
+            creator.nb_rows = nb_rows;
+        }
+
+        float inter_row_distance = EditorGUILayout.FloatField("Inter row distance", creator.inter_row_distance);
+        if (inter_row_distance != creator.inter_row_distance)
+        {
+            creator.inter_row_distance = inter_row_distance;
+        }
+        
+        if (GUILayout.Button("Generate all rows"))
+        {
+            creator.nb_rows = nb_rows;
+            creator.inter_row_distance = inter_row_distance;
+            creator.GenerateAllRows();
         }
 
         if (EditorGUI.EndChangeCheck()) {

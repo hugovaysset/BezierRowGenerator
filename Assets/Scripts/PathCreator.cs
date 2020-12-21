@@ -16,9 +16,15 @@ public class PathCreator : MonoBehaviour
     [HideInInspector]
     public Vector3 end_point = new Vector3(-4, 0, -4);
 
+    [HideInInspector]
+    public int nb_rows;
+
+    [HideInInspector]
+    public float inter_row_distance;
+
     // field containing the rows
     // used to constrain movements of points
-    public Transform field;
+    public GameObject field;
 
     // number of points at path initialization
     [Range(0, 10), HideInInspector]
@@ -47,4 +53,27 @@ public class PathCreator : MonoBehaviour
             path = new Path(init_point, end_point, field);
         }
     }
+
+    public void GenerateAllRows()
+    {
+        // get the direction of translation = orthogonal to the row axis
+        Vector3 direction = (Quaternion.Euler(90, 0, 0) * (path.Points[0] - path.Points[path.Points.Count - 1])).normalized;
+        Vector3 translation = direction * inter_row_distance;
+
+        // instantiate duplications of the row
+        for (int i = 0; i < nb_rows / 2; i++)
+        {
+            Path new_row_pos = path.Translate(translation);
+            Path new_row_neg = path.Translate(-translation);
+
+            GameObject obj_pos = new GameObject("Row" + i);
+            GameObject obj_neg = new GameObject("Row" + (-i));
+
+            obj_pos = Instantiate(obj_pos, Vector3.zero, Quaternion.identity);
+            obj_neg = Instantiate(obj_neg, Vector3.zero, Quaternion.identity);
+
+            translation += translation;
+        }
+    }
+
 }
