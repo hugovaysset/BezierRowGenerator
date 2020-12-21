@@ -28,7 +28,7 @@ public class PathCreator : MonoBehaviour
 
     // number of points at path initialization
     [Range(0, 10), HideInInspector]
-    public int nb_points = 1;
+    public int nb_points = 2;
 
     public int NbPoints
     {
@@ -66,11 +66,11 @@ public class PathCreator : MonoBehaviour
             Path new_row_pos = path.Translate(translation);
             Path new_row_neg = path.Translate(-translation);
 
-            GameObject obj_pos = new GameObject("Row" + i);
-            GameObject obj_neg = new GameObject("Row" + (-i));
+            GameObject obj_pos = new GameObject("Row" + (i+1));
+            GameObject obj_neg = new GameObject("Row" + (-(i+1)));
 
-            obj_pos = Instantiate(obj_pos, Vector3.zero, Quaternion.identity);
-            obj_neg = Instantiate(obj_neg, Vector3.zero, Quaternion.identity);
+            obj_pos.AddComponent<PathCreator>();
+            obj_neg.AddComponent<PathCreator>();
 
             translation += translation;
         }
