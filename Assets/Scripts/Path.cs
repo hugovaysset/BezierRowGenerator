@@ -11,13 +11,19 @@ public class Path {
     // HideInInspector : not shown in the inspector
     [SerializeField, HideInInspector]
     List<Vector3> points; // convention : one anchor, then its control points
+    [HideInInspector]
+    public Vector3 initial_point;
+    [HideInInspector]
+    public Vector3 final_point;
 
     [SerializeField, HideInInspector]
     bool auto_set_control_points;
-
+    
+    [HideInInspector]
     public Transform field;
     // List<Vector3> corner_list = new List<Vector3>();
     
+    [HideInInspector]
     public int nb_points;
 
     public Path(Vector3 init_point, Vector3 end_point, Transform f)
@@ -26,6 +32,8 @@ public class Path {
         // field : transform of the plane containing the row
         // the two defined points are control points
         field = f;
+        initial_point = init_point;
+        final_point = end_point;
 
         points = new List<Vector3>
         {
@@ -41,7 +49,7 @@ public class Path {
     public Path(Vector3 init_point, Vector3 end_point, Transform f, int nb_points_in_path)
     {
         // init/end_point : user-defined anchor points to instantiate Path
-        // field : transform of the plane containing the row
+        // f : transform of the plane containing the row
         // nb_points_in_path : #(points to initialize path)
         // the two defined points are control points
         field = f;
@@ -123,7 +131,7 @@ public class Path {
     }
 
 
-    public void AddSegment(Vector3 new_anchor)
+/*    public void AddSegment(Vector3 new_anchor)
     {
         // To add element in the end of the path
         // Used for mouse-click generation
@@ -140,7 +148,7 @@ public class Path {
         }
 
         nb_points += 1;
-    }
+    }*/
 
     public Vector3[] GetPointsInSegment(int i)
     {
@@ -185,6 +193,46 @@ public class Path {
                 }
             }
         }
+    }
+
+    public Vector3[] CalculateEvenelySpacePoints(float spacing, float resolution = 1)
+    {
+        List<Vector3> evenly_spaced_points = new List<Vector3>();
+        evenly_spaced_points.Add(points[0]);
+        Vector3 previous_point = points[0];
+        float distance_since_last_even_point = 0;
+
+        for (int segment_index = 0; segment_index < NumSegments; segment_index++)
+        {
+            Vector3[] p = GetPointsInSegment(segment_index);
+
+            // estimate the distance between two anchor points, following the Bezier curve
+            float control_net_length = Vector3.Distance(p[0], p[1]) + Vector3.Distance(p[1], p[2]) + Vector3.Distance(p[2], p[3]);
+            float estimated_curve_length = Vector3.Distance(p[0], p[3]) + 0.5f * control_net_length;
+            int divisions = Mathf.CeilToInt(estimated_curve_length * resolution * 10);
+            float t = 0;
+
+            // generate each evenly spaced point between the two anchors
+            while (t <= 1)
+            {
+                t += 1f / divisions;
+                Vector3 point_on_curve = Bezier.EvaluateCubic(p[0], p[1], p[2], p[3], t);
+                distance_since_last_even_point += Vector3.Distance(previous_point, point_on_curve);
+
+                if (distance_since_last_even_point >= spacing)
+                {
+                    float overshoot_dist = distance_since_last_even_point - spacing;
+                    Vector3 new_evenly_spaced_point = point_on_curve + (previous_point - point_on_curve).normalized * overshoot_dist;
+                    evenly_spaced_points.Add(new_evenly_spaced_point);
+                    distance_since_last_even_point = overshoot_dist;
+                    previous_point = new_evenly_spaced_point;
+                }
+
+                previous_point = point_on_curve;
+            }
+        }
+
+        return evenly_spaced_points.ToArray();
     }
 
     void AutoSetAllAffectedControlPoints(int updated_anchor_index)

@@ -10,8 +10,10 @@ public class PathCreator : MonoBehaviour
     public Path path;
 
     // public Vector3 init_point = Vector3.zero;
+    [HideInInspector]
     public Vector3 init_point = new Vector3(4, 0, 4);
     // public Vector3 end_point = (Vector3.back + Vector3.right) * 3;
+    [HideInInspector]
     public Vector3 end_point = new Vector3(-4, 0, -4);
 
     // field containing the rows
@@ -19,7 +21,20 @@ public class PathCreator : MonoBehaviour
     public Transform field;
 
     // number of points at path initialization
-    [Range(0, 10)]public int nb_points = 7;
+    [Range(0, 10), HideInInspector]
+    public int nb_points = 1;
+
+    public int NbPoints
+    {
+        get
+        {
+            return nb_points;
+        }
+        set
+        {
+            nb_points = value;
+        }
+    }
 
     public void CreatePath()
     {

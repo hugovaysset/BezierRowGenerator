@@ -19,12 +19,28 @@ public class PathEditor : Editor
     {
         base.OnInspectorGUI();
 
-        EditorGUI.BeginChangeCheck();
-        if (GUILayout.Button("Create new path"))
+        Vector3 initial_point_inspector = EditorGUILayout.Vector3Field("Initial point", creator.init_point);
+        if (initial_point_inspector != path.initial_point)
         {
+            creator.init_point = initial_point_inspector;
+            path.initial_point = initial_point_inspector;
+            path.MovePoint(0, initial_point_inspector);
+        }
+
+        Vector3 end_point_inspector = EditorGUILayout.Vector3Field("Final point", creator.end_point);
+        if (end_point_inspector != path.final_point)
+        {
+            creator.end_point = end_point_inspector;
+            path.final_point = end_point_inspector;
+            path.MovePoint(path.NumPoints - 1, end_point_inspector);
+        }
+
+        int nb_points_in_path = (int)EditorGUILayout.IntField("Number of points", creator.nb_points);
+        if (nb_points_in_path != path.nb_points)
+        {
+            creator.NbPoints = nb_points_in_path;
             creator.CreatePath();
             path = creator.path;
-            SceneView.RepaintAll();
         }
 
         bool auto_set_control_points = GUILayout.Toggle(path.AutoSetControlPoints, "Auto Set Control Points");
@@ -32,6 +48,13 @@ public class PathEditor : Editor
         {
             Undo.RecordObject(creator, "Toggle auto set control points");
             path.AutoSetControlPoints = auto_set_control_points;
+        }
+
+        EditorGUI.BeginChangeCheck();
+        if (GUILayout.Button("Create new path"))
+        {
+            creator.CreatePath();
+            path = creator.path;
         }
 
         if (EditorGUI.EndChangeCheck()) {
@@ -42,11 +65,14 @@ public class PathEditor : Editor
 
     void OnSceneGUI()
     {
-        Input();
+        /*Input();*/
         Draw();
     }
 
-    void Input()
+// For now we disable the initialization of new points using mouse interactions
+// to focus on initialization of a given number of points
+
+/*    void Input()
     {
         Event gui_event = Event.current;
         Vector3 mouse_position = HandleUtility.GUIPointToWorldRay(
@@ -57,7 +83,7 @@ public class PathEditor : Editor
             Undo.RecordObject(creator, "Add Segment");
             path.AddSegment(mouse_position);
         }
-    }
+    }*/
 
     void Draw()
     {
@@ -75,11 +101,25 @@ public class PathEditor : Editor
         for (int i = 0; i < path.NumPoints; i++)
         {
             Vector3 new_pos = Handles.FreeMoveHandle(path[i], Quaternion.identity, 
-                              .1f, Vector3.zero, Handles.CylinderHandleCap);
+                              .1f, Vector3.zero, Handles.SphereHandleCap);
             if (path[i] != new_pos)
             {
                 Undo.RecordObject(creator, "Move Point");
                 path.MovePoint(i, new_pos);
+
+                // update inspector values
+                if (i == 0)
+                {
+                    creator.init_point = new_pos.Round(2);
+                    path.initial_point = new_pos.Round(2);
+                }
+
+                if (i == path.NumPoints - 1)
+                {
+                    creator.end_point = new_pos.Round(2);
+                    path.final_point = new_pos.Round(2);
+                }
+
             }
         }
     }
