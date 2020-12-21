@@ -6,40 +6,46 @@ public class FieldCreator : MonoBehaviour
 {
 
     public GameObject field;
-    public GameObject row;
+    // row that serves as origin to instantiate all the others
+    public GameObject origin;
     [HideInInspector] public int nb_rows;
     [HideInInspector] public float inter_row_distance;
-    [HideInInspector] public bool generate_all_raws;
 
     // Start is called before the first frame update
-    void Start()
+/*    void Start()
     {
-        if (generate_all_raws)
-        {
-            /*GenerateAllRows();*/
-        }
-    }
+       
+    }*/
 
-/*    public void GenerateAllRows()
+    public void GenerateAllRows()
     {
+        
+        // Get the points list of the origin row
+        PathCreator pc = origin.GetComponent<PathCreator>();
+        Path p = pc.path;
+        List<Vector3> points = pc.path.Points;
+
         // get the direction of translation = orthogonal to the row axis
-        Vector3 direction = (Quaternion.Euler(90, 0, 0) * (row.Points[0] - row.Points[row.Points.Count - 1])).normalized;
+        Vector3 direction = (Quaternion.Euler(90, 0, 0) * (points[0] - points[points.Count - 1])).normalized;
         Vector3 translation = direction * inter_row_distance;
 
-        // instantiate duplications of the row
+        // instantiate duplications of the rows
         for (int i = 0; i < nb_rows / 2; i++)
-        {
-            row new_row_pos = row.Translate(translation);
-            row new_row_neg = row.Translate(-translation);
-
+        { 
             GameObject obj_pos = new GameObject("Row" + (i + 1));
             GameObject obj_neg = new GameObject("Row" + (-(i + 1)));
 
-            obj_pos.AddComponent<rowCreator>();
-            obj_neg.AddComponent<rowCreator>();
+            obj_pos.AddComponent<PathCreator>();
+            obj_neg.AddComponent<PathCreator>();
+
+            obj_pos.GetComponent<PathCreator>().CreatePath(p);
+            obj_neg.GetComponent<PathCreator>().CreatePath(p);
+
+            obj_pos.GetComponent<PathCreator>().TranslatePath(translation);
+            obj_neg.GetComponent<PathCreator>().TranslatePath(-translation);
 
             translation += translation;
         }
-    }*/
+    }
 
 }

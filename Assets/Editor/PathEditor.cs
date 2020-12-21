@@ -57,7 +57,7 @@ public class PathEditor : Editor
             path = creator.path;
         }
 
-        int nb_rows = EditorGUILayout.IntField("Number of rows", creator.nb_rows);
+/*        int nb_rows = EditorGUILayout.IntField("Number of rows", creator.nb_rows);
         if (nb_rows != creator.nb_rows)
         {
             creator.nb_rows = nb_rows;
@@ -78,7 +78,7 @@ public class PathEditor : Editor
 
         if (EditorGUI.EndChangeCheck()) {
             SceneView.RepaintAll();
-        }
+        }*/
 
     }
 

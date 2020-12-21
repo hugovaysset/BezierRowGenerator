@@ -9,10 +9,8 @@ public class PathCreator : MonoBehaviour
     [HideInInspector]
     public Path path;
 
-    // public Vector3 init_point = Vector3.zero;
     [HideInInspector]
     public Vector3 init_point = new Vector3(4, 0, 4);
-    // public Vector3 end_point = (Vector3.back + Vector3.right) * 3;
     [HideInInspector]
     public Vector3 end_point = new Vector3(-4, 0, -4);
 
@@ -42,6 +40,7 @@ public class PathCreator : MonoBehaviour
         }
     }
 
+    // initialize a path
     public void CreatePath()
     {
         if (nb_points > 2)
@@ -54,26 +53,28 @@ public class PathCreator : MonoBehaviour
         }
     }
 
-    public void GenerateAllRows()
+    // initialize a path from an existing one
+    public void CreatePath(Path ref_path)
     {
-        // get the direction of translation = orthogonal to the row axis
-        Vector3 direction = (Quaternion.Euler(90, 0, 0) * (path.Points[0] - path.Points[path.Points.Count - 1])).normalized;
-        Vector3 translation = direction * inter_row_distance;
-
-        // instantiate duplications of the row
-        for (int i = 0; i < nb_rows / 2; i++)
-        {
-            Path new_row_pos = path.Translate(translation);
-            Path new_row_neg = path.Translate(-translation);
-
-            GameObject obj_pos = new GameObject("Row" + (i+1));
-            GameObject obj_neg = new GameObject("Row" + (-(i+1)));
-
-            obj_pos.AddComponent<PathCreator>();
-            obj_neg.AddComponent<PathCreator>();
-
-            translation += translation;
-        }
+        nb_points = ref_path.nb_points;
+        init_point = ref_path.initial_point;
+        end_point = ref_path.final_point;
+        path = new Path(ref_path.Points, ref_path.field);
     }
 
+    // To translate a path from a given list of points
+    public void TranslatePath(Vector3 translation)
+    {
+        Path translated_path = new Path(path.Points, field);
+
+        // translating the copy
+        for (int i = 0; i < path.Points.Count; i += 3)
+        {
+            translated_path.MovePoint(i, translation);
+        }
+
+        init_point += translation;
+        end_point += translation;
+        path = translated_path;
+    }
 }

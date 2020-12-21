@@ -98,13 +98,15 @@ public class Path {
         }
     }
 
+    // Initialize a path from a given list of Vector3
     public Path(List<Vector3> points_ref, GameObject f)
     {
         // points_ref : list of Vector3 containing points to copy
         // f : transform of the plane containing the row
-        this.field = f;
-        this.points = new List<Vector3>(points_ref);
-        this.nb_points = points.Count;
+        field = f;
+        nb_points = (points_ref.Count + 2) / 3; // number of anchor points
+        points = new List<Vector3>(points_ref);
+        
     }
 
     public List<Vector3> Points

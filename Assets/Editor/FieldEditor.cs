@@ -13,10 +13,10 @@ public class FieldEditor : Editor
         base.OnInspectorGUI();
 
         EditorGUI.BeginChangeCheck();
-        int nb_rows = EditorGUILayout.IntField("Number of rows", creator.nb_rows);
-        if (nb_rows != creator.nb_rows)
+        int nbr = EditorGUILayout.IntField("Number of rows", creator.nb_rows);
+        if (nbr != creator.nb_rows)
         {
-            creator.nb_rows = nb_rows;
+            creator.nb_rows = nbr;
         }
 
         float inter_row_distance = EditorGUILayout.FloatField("Inter row distance", creator.inter_row_distance);
@@ -27,13 +27,17 @@ public class FieldEditor : Editor
 
         if (GUILayout.Button("Generate all rows"))
         {
-            creator.generate_all_raws = true;
+            creator.GenerateAllRows();
         }
 
         if (EditorGUI.EndChangeCheck())
         {
             SceneView.RepaintAll();
         }
+    }
+    private void OnEnable()
+    {
+        creator = (FieldCreator)target;
     }
 
 }
