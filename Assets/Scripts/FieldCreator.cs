@@ -10,14 +10,10 @@ public class FieldCreator : MonoBehaviour
     public GameObject origin;
     [HideInInspector, Range(1, 15)] public int nb_rows;
     [HideInInspector] public float inter_row_distance;
-    [HideInInspector] List<GameObject> rows_list = new List<GameObject>();
+    [HideInInspector] public List<GameObject> rows_list = new List<GameObject>();
     [HideInInspector] public float inter_crop_distance;
-
-    // Start is called before the first frame update
-/*    void Start()
-    {
-       
-    }*/
+    [HideInInspector] public float resolution;
+    [HideInInspector] public bool rows_are_initialiazed = false;
 
     public void GenerateAllRows()
     {
@@ -26,6 +22,7 @@ public class FieldCreator : MonoBehaviour
         Path p = pc.path;
         List<Vector3> points = pc.path.Points;
 
+        // the origin row is also added into the field.
         rows_list.Add(origin);
 
         // get the direction of translation = orthogonal to the row axis
@@ -57,12 +54,23 @@ public class FieldCreator : MonoBehaviour
                 rows_list.Add(obj_neg);
             }
         }
-        
     }
 
     public void InitializeCrops()
     {
-        
-    }
+        // iterate on each row of the field
+        foreach (GameObject row in rows_list)
+        {
+            Debug.Log(rows_list.Count);
+            Vector3[] points = row.GetComponent<PathCreator>().path.CalculateEvenlySpacePoints(inter_crop_distance, resolution);
 
+            // Set spheres on the path
+            foreach (Vector3 p in points)
+            {
+                GameObject g = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                g.transform.position = p;
+                g.transform.localScale = Vector3.one * inter_crop_distance * 0.5f;
+            }
+        }
+    }
 }

@@ -259,51 +259,11 @@ public class Path {
                 Vector3 point_on_curve = Bezier.EvaluateCubic(p[0], p[1], p[2], p[3], t);
                 distance_since_last_even_point += Vector3.Distance(previous_point, point_on_curve);
 
-                if (distance_since_last_even_point >= spacing)
+                while (distance_since_last_even_point >= spacing)
                 {
                     float overshoot_dist = distance_since_last_even_point - spacing;
                     Vector3 new_evenly_spaced_point = point_on_curve + (previous_point - point_on_curve).normalized * overshoot_dist;
-                    evenly_spaced_points.Add(new_evenly_spaced_point);
-                    distance_since_last_even_point = overshoot_dist;
-                    previous_point = new_evenly_spaced_point;
-                }
-
-                previous_point = point_on_curve;
-            }
-        }
-
-        return evenly_spaced_points.ToArray();
-    }
-
-    // Used to instantiate the rows using an inter-plant-distance parameter
-    public Vector3[] CalculateEvenlySpacePoints(float inter_plant_distance)
-    {
-        List<Vector3> evenly_spaced_points = new List<Vector3>();
-        evenly_spaced_points.Add(points[0]);
-        Vector3 previous_point = points[0];
-        float distance_since_last_even_point = 0;
-
-        for (int segment_index = 0; segment_index < NumSegments; segment_index++)
-        {
-            Vector3[] p = GetPointsInSegment(segment_index);
-
-            // estimate the distance between two anchor points, following the Bezier curve
-            float control_net_length = Vector3.Distance(p[0], p[1]) + Vector3.Distance(p[1], p[2]) + Vector3.Distance(p[2], p[3]);
-            float estimated_curve_length = Vector3.Distance(p[0], p[3]) + 0.5f * control_net_length;
-            int divisions = Mathf.CeilToInt(estimated_curve_length / inter_plant_distance);
-            float t = 0;
-
-            // generate each evenly spaced point between the two anchors
-            while (t <= 1)
-            {
-                t += 1f / divisions;
-                Vector3 point_on_curve = Bezier.EvaluateCubic(p[0], p[1], p[2], p[3], t);
-                distance_since_last_even_point += Vector3.Distance(previous_point, point_on_curve);
-
-                if (distance_since_last_even_point >= inter_plant_distance)
-                {
-                    float overshoot_dist = distance_since_last_even_point - inter_plant_distance;
-                    Vector3 new_evenly_spaced_point = point_on_curve + (previous_point - point_on_curve).normalized * overshoot_dist;
+                    new_evenly_spaced_point.y = 0;
                     evenly_spaced_points.Add(new_evenly_spaced_point);
                     distance_since_last_even_point = overshoot_dist;
                     previous_point = new_evenly_spaced_point;

@@ -27,13 +27,33 @@ public class FieldEditor : Editor
 
         if (GUILayout.Button("Generate all rows"))
         {
+            creator.rows_list = new List<GameObject>();
             creator.GenerateAllRows();
+            creator.rows_are_initialiazed = true;
+        }
+
+        float inter_crop_distance = EditorGUILayout.FloatField("Inter crop distance", creator.inter_crop_distance);
+        if (inter_crop_distance != creator.inter_crop_distance)
+        {
+            creator.inter_crop_distance = inter_crop_distance;
+        }
+
+        float res = EditorGUILayout.FloatField("Resolution", creator.resolution);
+        if (res != creator.resolution)
+        {
+            creator.resolution = res;
+        }
+
+        if (GUILayout.Button("Initialize all crops") && creator.rows_are_initialiazed)
+        {
+            creator.InitializeCrops();
         }
 
         if (EditorGUI.EndChangeCheck())
         {
             SceneView.RepaintAll();
         }
+
     }
     private void OnEnable()
     {
