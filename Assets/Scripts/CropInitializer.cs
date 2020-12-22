@@ -14,7 +14,7 @@ public class CropInitializer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Vector3[] points = FindObjectOfType<PathCreator>().path.CalculateEvenelySpacePoints(spacing, resolution);
+        Vector3[] points = FindObjectOfType<PathCreator>().path.CalculateEvenlySpacePoints(spacing, resolution);
         // Vector3[] points = FindObjectOfType<PathCreator>().path.CalculateEvenelySpacePoints(inter_plant_distance);
 
         foreach (Vector3 p in points)

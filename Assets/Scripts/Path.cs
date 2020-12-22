@@ -235,7 +235,7 @@ public class Path {
     }
 
     // Used to instatiate the crops on a row using two parameters : spacing and resolution
-    public Vector3[] CalculateEvenelySpacePoints(float spacing, float resolution = 1)
+    public Vector3[] CalculateEvenlySpacePoints(float spacing, float resolution = 1)
     {
         List<Vector3> evenly_spaced_points = new List<Vector3>();
         evenly_spaced_points.Add(points[0]);
@@ -276,7 +276,7 @@ public class Path {
     }
 
     // Used to instantiate the rows using an inter-plant-distance parameter
-    public Vector3[] CalculateEvenelySpacePoints(float inter_plant_distance)
+    public Vector3[] CalculateEvenlySpacePoints(float inter_plant_distance)
     {
         List<Vector3> evenly_spaced_points = new List<Vector3>();
         evenly_spaced_points.Add(points[0]);
