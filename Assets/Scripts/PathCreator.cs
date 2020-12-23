@@ -70,7 +70,7 @@ public class PathCreator : MonoBehaviour
         // translating the copy
         for (int i = 0; i < path.Points.Count; i += 3)
         {
-            translated_path.MovePoint(i, translation);
+            translated_path.MovePoint(i, path.Points[i] + translation);
         }
 
         init_point += translation;

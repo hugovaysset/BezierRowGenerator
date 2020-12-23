@@ -26,13 +26,14 @@ public class FieldCreator : MonoBehaviour
         rows_list.Add(origin);
 
         // get the direction of translation = orthogonal to the row axis
-        Vector3 direction = (Quaternion.Euler(90, 0, 0) * (points[0] - points[points.Count - 1])).normalized;
+        Vector3 direction = Vector3.Cross(points[0] - points[points.Count - 1], Vector3.up).normalized;
         Vector3 delta = direction * inter_row_distance;
 
         // instantiate duplications of the rows
 
         for (int i = 0; i < nb_rows - 1; i += 2)
         {
+            Debug.Log(p.Points.Count);
             Vector3 translation = (i+1) * delta;
             GameObject obj_pos = new GameObject("Row" + (i+1));
             obj_pos.AddComponent<PathCreator>();
