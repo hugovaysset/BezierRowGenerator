@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class FieldCreator : MonoBehaviour
 {
-
-    public GameObject field;
+    public GameObject field_go;
+    public Field field;
     // row that serves as origin to instantiate all the others
     public GameObject origin;
     [HideInInspector, Range(1, 15)] public int nb_rows;
@@ -14,6 +14,12 @@ public class FieldCreator : MonoBehaviour
     [HideInInspector] public float inter_crop_distance;
     [HideInInspector] public float resolution;
     [HideInInspector] public bool rows_are_initialiazed = false;
+    [HideInInspector] public bool field_is_initialized = false;
+
+    public void CreateField()
+    {
+        field = new Field(field_go);
+    }
 
     public void GenerateAllRows()
     {
@@ -33,7 +39,6 @@ public class FieldCreator : MonoBehaviour
 
         for (int i = 0; i < nb_rows - 1; i += 2)
         {
-            Debug.Log(p.Points.Count);
             Vector3 translation = (i+1) * delta;
             GameObject obj_pos = new GameObject("Row" + (i+1));
             obj_pos.AddComponent<PathCreator>();
@@ -62,15 +67,17 @@ public class FieldCreator : MonoBehaviour
         // iterate on each row of the field
         foreach (GameObject row in rows_list)
         {
-            Debug.Log(rows_list.Count);
             Vector3[] points = row.GetComponent<PathCreator>().path.CalculateEvenlySpacePoints(inter_crop_distance, resolution);
 
             // Set spheres on the path
             foreach (Vector3 p in points)
             {
-                GameObject g = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                g.transform.position = p;
-                g.transform.localScale = Vector3.one * inter_crop_distance * 0.5f;
+                if (field.isInTheField(p))
+                {
+                    GameObject g = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                    g.transform.position = p;
+                    g.transform.localScale = Vector3.one * inter_crop_distance * 0.5f;
+                }
             }
         }
     }

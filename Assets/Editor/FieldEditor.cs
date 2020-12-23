@@ -7,6 +7,7 @@ using UnityEditor;
 public class FieldEditor : Editor
 {
     public FieldCreator creator;
+    public Field field;
 
     public override void OnInspectorGUI()
     {
@@ -33,6 +34,12 @@ public class FieldEditor : Editor
 
             if (GUILayout.Button("Generate all rows"))
             {
+                // initialize the field
+                creator.CreateField();
+                field = creator.field;
+                creator.field_is_initialized = true;
+
+                // initialize the rows
                 creator.rows_list = new List<GameObject>();
                 creator.GenerateAllRows();
                 creator.rows_are_initialiazed = true;
@@ -71,6 +78,11 @@ public class FieldEditor : Editor
             if (GUILayout.Button("Initialize all crops") && creator.rows_are_initialiazed)
             {
                 creator.InitializeCrops();
+            }
+            else if (!creator.field_is_initialized)
+            {
+                Debug.Log("Field is not yet initialized. Please press the Generate all rows button before" +
+                    "trying to initialize the crops");
             }
         }
 
