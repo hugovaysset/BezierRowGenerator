@@ -8,6 +8,7 @@ public class FieldCreator : MonoBehaviour
     public Field field;
     // row that serves as origin to instantiate all the others
     public GameObject origin;
+    public GameObject crop_model;
     [HideInInspector, Range(1, 15)] public int nb_rows;
     [HideInInspector] public float inter_row_distance;
     [HideInInspector] public List<GameObject> rows_list = new List<GameObject>();
@@ -93,7 +94,7 @@ public class FieldCreator : MonoBehaviour
             {
                 if (field.isInTheField(p))
                 {
-                    GameObject g = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                    GameObject g = GameObject.Instantiate(crop_model);
                     g.transform.position = p;
                     g.transform.localScale = Vector3.one * inter_crop_distance * 0.5f;
                     g.transform.parent = row.transform;

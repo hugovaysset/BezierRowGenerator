@@ -57,7 +57,6 @@ public class FieldEditor : Editor
                 {
                     Debug.Log("Rows are already intialized!");
                 }
-
             }
 
             if (GUILayout.Button("Delete all rows"))
