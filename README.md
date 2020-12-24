@@ -4,7 +4,7 @@ Generator of crop rows shaped by Bezier curves.
 
 Based on Sebastian Lague's tutorial named "Curve Editor" (https://www.youtube.com/c/SebastianLague/).
 
-![Capture Field Generator]("/imgs/scene_view.PNG")
+![Capture Field Generator](/imgs/scene_view.PNG)
 
 ## How to use the BezierRowGenerator ?
 The code is structured around three objects :
