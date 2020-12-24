@@ -11,10 +11,12 @@ public class FieldCreator : MonoBehaviour
     [HideInInspector, Range(1, 15)] public int nb_rows;
     [HideInInspector] public float inter_row_distance;
     [HideInInspector] public List<GameObject> rows_list = new List<GameObject>();
+    [HideInInspector] public List<GameObject> crops_list = new List<GameObject>();
     [HideInInspector] public float inter_crop_distance;
     [HideInInspector] public float resolution;
     [HideInInspector] public bool rows_are_initialiazed = false;
     [HideInInspector] public bool field_is_initialized = false;
+    [HideInInspector] public bool crops_are_initialized = false;
 
     public void CreateField()
     {
@@ -64,6 +66,19 @@ public class FieldCreator : MonoBehaviour
         }
     }
 
+    public void DeleteRows()
+    {
+        if (rows_list.Count > 1)
+        {
+            for (int i = 1; i < rows_list.Count; i++)
+            {
+                DestroyImmediate(rows_list[i]);
+            }
+            rows_list = new List<GameObject>();
+            rows_list.Add(origin);
+        }
+    }
+
     public void InitializeCrops()
     {
         // iterate on each row of the field
@@ -79,8 +94,21 @@ public class FieldCreator : MonoBehaviour
                     GameObject g = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                     g.transform.position = p;
                     g.transform.localScale = Vector3.one * inter_crop_distance * 0.5f;
+                    crops_list.Add(g);
                 }
             }
+        }
+    }
+
+    public void DeleteCrops()
+    {
+        if (crops_list.Count > 0)
+        {
+            for (int i = 0; i < crops_list.Count; i++)
+            {
+                DestroyImmediate(crops_list[i]);
+            }
+            crops_list = new List<GameObject>();
         }
     }
 }

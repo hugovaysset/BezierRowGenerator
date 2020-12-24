@@ -26,7 +26,7 @@ public class PathCreator : MonoBehaviour
 
     // number of points at path initialization
     [Range(0, 10), HideInInspector]
-    public int nb_points = 2;
+    public int nb_points = 3;
 
     public int NbPoints
     {
