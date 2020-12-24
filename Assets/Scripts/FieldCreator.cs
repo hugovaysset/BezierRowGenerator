@@ -46,6 +46,7 @@ public class FieldCreator : MonoBehaviour
             obj_pos.AddComponent<PathCreator>();
             obj_pos.GetComponent<PathCreator>().CreatePath(p);
             obj_pos.GetComponent<PathCreator>().TranslatePath(translation);
+            obj_pos.transform.parent = field_go.transform;
             rows_list.Add(obj_pos);
             // generate only one row to achieve an even number of rows in the end
             if (nb_rows % 2 == 0 && i == nb_rows - 2) 
@@ -59,6 +60,7 @@ public class FieldCreator : MonoBehaviour
                 obj_neg.AddComponent<PathCreator>();
                 obj_neg.GetComponent<PathCreator>().CreatePath(p);
                 obj_neg.GetComponent<PathCreator>().TranslatePath(-translation);
+                obj_neg.transform.parent = field_go.transform;
                 rows_list.Add(obj_neg);
             }
 
@@ -94,6 +96,7 @@ public class FieldCreator : MonoBehaviour
                     GameObject g = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                     g.transform.position = p;
                     g.transform.localScale = Vector3.one * inter_crop_distance * 0.5f;
+                    g.transform.parent = row.transform;
                     crops_list.Add(g);
                 }
             }

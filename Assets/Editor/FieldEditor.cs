@@ -66,6 +66,8 @@ public class FieldEditor : Editor
                 {
                     creator.field_is_initialized = false;
                     creator.rows_are_initialiazed = false;
+                    creator.crops_are_initialized = false;
+                    creator.DeleteCrops();
                     creator.DeleteRows();
                 }
                 else
