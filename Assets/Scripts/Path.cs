@@ -36,6 +36,10 @@ public class Path {
     /*[HideInInspector]
     public float inter_row_distance;*/
 
+    /*
+     * Constructors
+     */
+
     // This constructor is called when no number of points in the path is defined
     public Path(Vector3 init_point, Vector3 end_point, GameObject f)
     {
@@ -108,6 +112,10 @@ public class Path {
         points = new List<Vector3>(points_ref);
         
     }
+
+    /*
+     * Accessors
+     */
 
     public List<Vector3> Points
     {

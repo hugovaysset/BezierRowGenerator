@@ -12,7 +12,7 @@ public class FieldCreator : MonoBehaviour
     [HideInInspector, Range(1, 15)] public int nb_rows;
     [HideInInspector] public float inter_row_distance;
     [HideInInspector] public List<GameObject> rows_list = new List<GameObject>();
-    [HideInInspector] public List<GameObject> crops_list = new List<GameObject>();
+    [HideInInspector] public List<GameObject> crops_list = new List<GameObject>();  // to store crops or crop positions ?
     [HideInInspector] public float inter_crop_distance;
     [HideInInspector] public float resolution;
     [HideInInspector] public bool rows_are_initialiazed = false;

@@ -11297,47 +11297,47 @@ PrefabInstance:
     - target: {fileID: 7916739996254655264, guid: d46a134f052c5a449814cd8155cc761c,
         type: 3}
       propertyPath: path.points.Array.data[5].x
-      value: 3.078125
+      value: 2.74646
       objectReference: {fileID: 0}
     - target: {fileID: 7916739996254655264, guid: d46a134f052c5a449814cd8155cc761c,
         type: 3}
       propertyPath: path.points.Array.data[5].y
-      value: 0.091796875
+      value: 0.41210938
       objectReference: {fileID: 0}
     - target: {fileID: 7916739996254655264, guid: d46a134f052c5a449814cd8155cc761c,
         type: 3}
       propertyPath: path.points.Array.data[5].z
-      value: 2.583571
+      value: 2.5644398
       objectReference: {fileID: 0}
     - target: {fileID: 7916739996254655264, guid: d46a134f052c5a449814cd8155cc761c,
         type: 3}
       propertyPath: path.points.Array.data[6].x
-      value: 1.3584137
+      value: 2.3858643
       objectReference: {fileID: 0}
     - target: {fileID: 7916739996254655264, guid: d46a134f052c5a449814cd8155cc761c,
         type: 3}
       propertyPath: path.points.Array.data[6].y
-      value: 0.034179688
+      value: 0.1640625
       objectReference: {fileID: 0}
     - target: {fileID: 7916739996254655264, guid: d46a134f052c5a449814cd8155cc761c,
         type: 3}
       propertyPath: path.points.Array.data[6].z
-      value: -0.22181314
+      value: 2.430695
       objectReference: {fileID: 0}
     - target: {fileID: 7916739996254655264, guid: d46a134f052c5a449814cd8155cc761c,
         type: 3}
       propertyPath: path.points.Array.data[7].x
-      value: 0.66362286
+      value: 0.7530135
       objectReference: {fileID: 0}
     - target: {fileID: 7916739996254655264, guid: d46a134f052c5a449814cd8155cc761c,
         type: 3}
       propertyPath: path.points.Array.data[7].y
-      value: -0.18660808
+      value: -0.95914423
       objectReference: {fileID: 0}
     - target: {fileID: 7916739996254655264, guid: d46a134f052c5a449814cd8155cc761c,
         type: 3}
       propertyPath: path.points.Array.data[7].z
-      value: 1.7304275
+      value: 1.8250718
       objectReference: {fileID: 0}
     - target: {fileID: 7916739996254655264, guid: d46a134f052c5a449814cd8155cc761c,
         type: 3}
